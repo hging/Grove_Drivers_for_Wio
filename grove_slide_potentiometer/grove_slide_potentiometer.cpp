@@ -35,7 +35,7 @@ GroveSlidePotentiometer::GroveSlidePotentiometer(int pin)
 
     suli_analog_init(io, pin);
     time = millis();
-    
+    cnt_analog = 0;
     suli_pin_attach_interrupt_handler(io, &slide_interrupt_handler, SULI_CHANGE, this);
 }
 
@@ -61,5 +61,9 @@ static void slide_interrupt_handler(void *para)
     }
     g->time = millis();
 
-    POST_EVENT_IN_INSTANCE(g, slide_changed, suli_analog_read(g->io));
+    if (suli_analog_read(g->io) != g->cnt_analog)
+    {
+      g->cnt_analog = suli_analog_read(g->io);
+      POST_EVENT_IN_INSTANCE(g, slide_changed, suli_analog_read(g->io));
+    }
 }

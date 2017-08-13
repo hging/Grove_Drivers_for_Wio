@@ -70,6 +70,7 @@ public:
     DEFINE_EVENT(slide_changed, SULI_EDT_INT);
     uint32_t time;
     ANALOG_T *io;
+    uint32_t cnt_analog;
 };
 
 static void slide_interrupt_handler(void *para);
